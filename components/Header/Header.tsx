@@ -1,19 +1,20 @@
-import css from "./Header.module.css";
 import Link from "next/link";
+import { getCategories } from "../../app/lib/api";
+import CategoriesMenu from "../CategoriesMenu/CategoriesMenu";
+import css from "./Header.module.css";
 
-export default function Header() {
+const Header = async () => {
+  const categories = await getCategories();
+
   return (
     <header className={css.header}>
       <Link href="/" aria-label="Home">
         NoteHub
       </Link>
-      <nav>
+      <nav aria-label="Main Navigation">
         <ul className={css.navigation}>
           <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <Link href="/notes">Notes</Link>
+            <CategoriesMenu categories={categories} />
           </li>
           <li>
             <Link href="/profile">Profile</Link>
@@ -25,4 +26,6 @@ export default function Header() {
       </nav>
     </header>
   );
-}
+};
+
+export default Header;

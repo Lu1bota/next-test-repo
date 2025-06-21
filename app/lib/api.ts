@@ -15,19 +15,29 @@ export type NoteListResponse = {
   total: number;
 };
 
+export type Category = {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 axios.defaults.baseURL = "https://next-docs-api.onrender.com";
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-export const getNotes = async () => {
-  await delay(2000);
-  const res = await axios.get<NoteListResponse>("/notes");
+export const getNotes = async (categoryId?: string) => {
+  const res = await axios.get<NoteListResponse>("/notes", {
+    params: { categoryId },
+  });
   return res.data;
 };
 
 export const getSingleNote = async (id: string) => {
   const res = await axios.get<Note>(`/notes/${id}`);
+  return res.data;
+};
+
+export const getCategories = async () => {
+  const res = await axios.get("/categories");
   return res.data;
 };
